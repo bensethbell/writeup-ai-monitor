@@ -1,6 +1,9 @@
 # .github/workflows/domain-monitor.yml
 name: Domain Monitor
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # Run daily at 9 AM UTC (adjust timezone as needed)
