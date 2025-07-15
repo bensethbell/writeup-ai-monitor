@@ -168,7 +168,6 @@ def main():
         body = f"""
 Domain: {DOMAIN}
 Time: {datetime.now()}
-GitHub Action: https://github.com/bensethbell/writeup-ai-monitor/actions
 
 CHANGES DETECTED:
 {chr(10).join(changes)}
