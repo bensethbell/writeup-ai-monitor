@@ -167,7 +167,7 @@ def main():
             critical_alert = True
     
     # Send email if changes detected (or for testing)
-    if changes or True:  # REMOVE "or True" after testing
+    if changes:  # REMOVE "or True" after testing
         urgency = "URGENT" if critical_alert else "Update"
         subject = f"{urgency}: {DOMAIN} Status Change!"
         
