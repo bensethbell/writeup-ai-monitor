@@ -165,25 +165,24 @@ def main():
         urgency = "🚨 URGENT" if critical_alert else "📊 Update"
         subject = f"{urgency}: {DOMAIN} Status Change!"
         
-        body = f"""
-Domain: {DOMAIN}
-Time: {datetime.now()}
-
-CHANGES DETECTED:
-{chr(10).join(changes)}
-
-CURRENT STATUS:
-- DropCatch: {dropcatch_status}
-- WHOIS Status: {whois_status.get('status', 'error')}
-
-ACTION NEEDED:
-{f'🎯 DOMAIN IS AVAILABLE FOR BACKORDER ON DROPCATCH!' if dropcatch_status == 'AVAILABLE_FOR_BACKORDER' else '⏳ Continue monitoring...'}
-
-Direct DropCatch Link: https://www.dropcatch.com/domain/{DOMAIN}
-
-Next check: Tomorrow at 9 AM UTC
-        """
+        body = f"""Domain: {DOMAIN}
+        Time: {datetime.now()}
+        GitHub Action: https://github.com/bensethbell/writeup-ai-monitor/actions
         
+        CHANGES DETECTED:
+        {chr(10).join(changes)}
+        
+        CURRENT STATUS:
+        - DropCatch: {dropcatch_status}
+        - WHOIS Status: {whois_status.get('status', 'error')}
+        
+        ACTION NEEDED:
+        {f'DOMAIN IS AVAILABLE FOR BACKORDER ON DROPCATCH!' if dropcatch_status == 'AVAILABLE_FOR_BACKORDER' else 'Continue monitoring...'}
+        
+        Direct DropCatch Link: https://www.dropcatch.com/domain/{DOMAIN}
+        
+        Next check: Tomorrow at 9 AM UTC
+        """
         send_email(subject, body)
     else:
         print("ℹ️  No changes detected")
