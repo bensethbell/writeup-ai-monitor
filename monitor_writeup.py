@@ -164,7 +164,7 @@ def main():
             critical_alert = True
     
     # Send email if changes detected
-    if changes:
+    if changes or True:
         urgency = "🚨 URGENT" if critical_alert else "📊 Update"
         subject = f"{urgency}: {DOMAIN} Status Change!"
         
