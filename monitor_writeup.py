@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Complete Domain Monitoring Script with Simple Email
-Uses basic smtplib without problematic mime imports
+Uses basic smtplib without emojis to avoid encoding issues
 """
 
 import requests
@@ -87,15 +87,18 @@ def send_simple_email(subject, body):
     """Send email using simple SMTP without MIME imports"""
     try:
         if not all([EMAIL_CONFIG['sender_email'], EMAIL_CONFIG['sender_password'], EMAIL_CONFIG['recipient']]):
-            print("❌ Email configuration missing")
+            print("Email configuration missing")
             return False
         
-        # Create simple email message
+        # Create simple email message (ASCII safe)
+        clean_subject = subject.encode('ascii', 'ignore').decode('ascii')
+        clean_body = body.encode('ascii', 'ignore').decode('ascii')
+        
         message = f"""From: {EMAIL_CONFIG['sender_email']}
 To: {EMAIL_CONFIG['recipient']}
-Subject: {subject}
+Subject: {clean_subject}
 
-{body}
+{clean_body}
 """
         
         # Connect and send
@@ -110,11 +113,11 @@ Subject: {subject}
         )
         server.quit()
         
-        print(f"✅ Email sent: {subject}")
+        print(f"Email sent: {clean_subject}")
         return True
         
     except Exception as e:
-        print(f"❌ Failed to send email: {e}")
+        print(f"Failed to send email: {e}")
         return False
 
 def load_previous_status():
@@ -132,7 +135,7 @@ def save_current_status(status_data):
 
 def main():
     """Main monitoring function"""
-    print(f"🔍 Checking {DOMAIN} status at {datetime.now()}")
+    print(f"Checking {DOMAIN} status at {datetime.now()}")
     
     # Load previous status
     previous = load_previous_status()
@@ -152,20 +155,20 @@ def main():
     critical_alert = False
     
     if previous.get('dropcatch') != dropcatch_status:
-        changes.append(f"DropCatch: {previous.get('dropcatch', 'unknown')} → {dropcatch_status}")
+        changes.append(f"DropCatch: {previous.get('dropcatch', 'unknown')} -> {dropcatch_status}")
         if dropcatch_status == "AVAILABLE_FOR_BACKORDER":
             critical_alert = True
     
     if previous.get('whois', {}).get('status') != whois_status.get('status'):
         old_status = previous.get('whois', {}).get('status', 'unknown')
         new_status = whois_status.get('status', 'unknown')
-        changes.append(f"WHOIS: {old_status} → {new_status}")
+        changes.append(f"WHOIS: {old_status} -> {new_status}")
         if new_status in ['pendingDelete', 'expired']:
             critical_alert = True
     
-    # Send email if changes detected
-    if changes or True:
-        urgency = "🚨 URGENT" if critical_alert else "📊 Update"
+    # Send email if changes detected (or for testing)
+    if changes or True:  # REMOVE "or True" after testing
+        urgency = "URGENT" if critical_alert else "Update"
         subject = f"{urgency}: {DOMAIN} Status Change!"
         
         body = f"""Domain: {DOMAIN}
@@ -180,7 +183,7 @@ CURRENT STATUS:
 - WHOIS Status: {whois_status.get('status', 'error')}
 
 ACTION NEEDED:
-{f'🎯 DOMAIN IS AVAILABLE FOR BACKORDER ON DROPCATCH!' if dropcatch_status == 'AVAILABLE_FOR_BACKORDER' else '⏳ Continue monitoring...'}
+{f'DOMAIN IS AVAILABLE FOR BACKORDER ON DROPCATCH!' if dropcatch_status == 'AVAILABLE_FOR_BACKORDER' else 'Continue monitoring...'}
 
 Direct DropCatch Link: https://www.dropcatch.com/domain/{DOMAIN}
 
@@ -189,13 +192,13 @@ Next check: Tomorrow at 9 AM UTC
         
         send_simple_email(subject, body)
     else:
-        print("ℹ️  No changes detected")
+        print("No changes detected")
     
     # Save current status
     save_current_status(current)
     
     # Print current status
-    print(f"📊 Current Status:")
+    print(f"Current Status:")
     print(f"   DropCatch: {dropcatch_status}")
     print(f"   WHOIS: {whois_status.get('status', 'error')}")
     print(f"Direct link: https://www.dropcatch.com/domain/{DOMAIN}")
