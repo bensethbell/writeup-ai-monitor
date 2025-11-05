@@ -1,7 +1,7 @@
 {
-  "timestamp": "2025-11-04T09:21:43.920958",
+  "timestamp": "2025-11-05T09:20:56.496879",
   "dropcatch": "UNKNOWN_STATUS",
   "whois": {
-    "error": "HTTPSConnectionPool(host='www.whois.net', port=443): Max retries exceeded with url: /whois/writeup.ai (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7f8e7d7c6190>: Failed to resolve 'www.whois.net' ([Errno -3] Temporary failure in name resolution)\"))"
+    "error": "HTTPSConnectionPool(host='www.whois.net', port=443): Max retries exceeded with url: /whois/writeup.ai (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7fbba62cc190>: Failed to resolve 'www.whois.net' ([Errno -3] Temporary failure in name resolution)\"))"
   }
 }
