@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-19T09:19:19.375567",
+  "timestamp": "2026-04-20T09:38:46.373860",
   "dropcatch": "UNKNOWN_STATUS",
   "whois": {
     "error": "HTTPSConnectionPool(host='www.whois.net', port=443): Max retries exceeded with url: /whois/writeup.ai (Caused by NameResolutionError(\"HTTPSConnection(host='www.whois.net', port=443): Failed to resolve 'www.whois.net' ([Errno -3] Temporary failure in name resolution)\"))"
